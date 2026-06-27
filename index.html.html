@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suriya T S — Cybersecurity & AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0E17;
+      --card: #141C2E;
+      --border: #1E2D4A;
+      --accent: #00C2FF;
+      --accent2: #7B61FF;
+      --gold: #FFD166;
+      --warn: #FF4D6D;
+      --text: #E2E8F0;
+      --muted: #64748B;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(0,194,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,194,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(10,14,23,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* LAYOUT */
+    .container { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 5rem 0; }
+    hr.divider { border: none; border-top: 1px solid var(--border); max-width: 980px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* TYPOGRAPHY */
+    .eyebrow { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem; }
+    .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2.5rem; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 5rem; }
+    .hero h1 { font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+    .hero h1 .grad { display: block; background: linear-gradient(100deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 520px; margin-bottom: 2rem; line-height: 1.75; }
+    .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.3rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; font-family: var(--sans); }
+    .btn-primary { background: var(--accent); color: #0A0E17; }
+    .btn-primary:hover { background: #29d4ff; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-stats { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat-num { font-family: var(--mono); font-size: 1.75rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.3rem; }
+
+    /* CARDS */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; transition: border-color 0.2s, transform 0.2s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-link { text-decoration: none; color: inherit; display: block; }
+
+    /* TAGS */
+    .tag { display: inline-block; font-family: var(--mono); font-size: 0.67rem; border-radius: 4px; padding: 0.18rem 0.5rem; letter-spacing: 0.04em; margin-bottom: 0.7rem; }
+    .tag-purple { color: var(--accent2); background: rgba(123,97,255,0.12); border: 1px solid rgba(123,97,255,0.25); }
+    .tag-red    { color: var(--warn);   background: rgba(255,77,109,0.1);   border: 1px solid rgba(255,77,109,0.25); }
+    .tag-cyan   { color: var(--accent); background: rgba(0,194,255,0.1);    border: 1px solid rgba(0,194,255,0.25); }
+    .tag-gold   { color: var(--gold);   background: rgba(255,209,102,0.1);  border: 1px solid rgba(255,209,102,0.25); }
+
+    /* GRID LAYOUTS */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.9rem; }
+
+    /* PROJECT CARDS */
+    .proj-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.45rem; }
+    .proj-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .pill { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 4px; padding: 0.18rem 0.45rem; }
+
+    /* AWARD BANNER */
+    .award-banner {
+      display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+      background: linear-gradient(135deg, rgba(255,209,102,0.07), rgba(255,209,102,0.02));
+      border: 1px solid rgba(255,209,102,0.22); border-radius: 10px;
+      padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+    }
+    .award-icon { font-size: 2rem; flex-shrink: 0; }
+    .award-title { font-weight: 700; font-size: 0.95rem; color: var(--gold); }
+    .award-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* INTERNSHIP CARDS */
+    .exp-card { border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+    .exp-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
+    .exp-role { font-weight: 600; font-size: 0.95rem; }
+    .exp-company { font-size: 0.82rem; color: var(--accent); margin-top: 0.1rem; }
+    .exp-period { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+    .exp-bullets { margin-top: 0.6rem; padding-left: 1rem; }
+    .exp-bullets li { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.55; }
+
+    /* EDUCATION */
+    .edu-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+    .edu-degree { font-weight: 600; font-size: 0.95rem; }
+    .edu-school { font-size: 0.82rem; color: var(--accent); margin-top: 0.2rem; }
+    .edu-meta { text-align: right; flex-shrink: 0; }
+    .edu-year { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .edu-grade { font-family: var(--mono); font-size: 0.85rem; color: var(--gold); font-weight: 600; margin-top: 0.2rem; }
+
+    /* SKILL GROUPS */
+    .skill-group-title { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.65rem; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill-pill { font-size: 0.77rem; color: var(--text); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 4px; padding: 0.22rem 0.55rem; }
+
+    /* CERT CARDS */
+    .cert-issuer { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .cert-name { font-size: 0.8rem; color: var(--text); font-weight: 500; line-height: 1.4; }
+    .cert-section-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+
+    /* ACHIEVEMENTS */
+    .ach-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .ach-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .ach-title { font-size: 0.88rem; font-weight: 600; }
+    .ach-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+    /* CONTACT */
+    .contact-card { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
+    .contact-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .contact-lbl { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .contact-val { font-size: 0.82rem; font-weight: 500; margin-top: 0.1rem; }
+
+    /* FOOTER */
+    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0.85rem 1.25rem; }
+      .nav-links { gap: 1.1rem; }
+      .container { padding: 0 1.25rem; }
+      section { padding: 3.5rem 0; }
+      .hero-stats { gap: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">suriya@ts:~$</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="container">
+  <section class="hero">
+    <div class="eyebrow">Available for Internships &amp; Opportunities</div>
+    <h1>
+      Suriya T S
+      <span class="grad">Cybersecurity &amp; AI Engineer</span>
+    </h1>
+    <p class="hero-sub">
+      B.Tech CSE (Cybersecurity) · SRM IST Tiruchirappalli · CGPA 9.64<br>
+      I build security tools, autonomous agents, and AI-powered systems —
+      then break them to make them stronger.
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-ghost" href="https://github.com/Suriya-TS" target="_blank">GitHub ↗</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/suriya-t-s-77ba99328" target="_blank">LinkedIn ↗</a>
+      <a class="btn btn-ghost" href="mailto:surya.sp.2105@gmail.com">Email ↗</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">9.64</div><div class="stat-lbl">CGPA</div></div>
+      <div><div class="stat-num">3</div><div class="stat-lbl">Internships</div></div>
+      <div><div class="stat-num">4</div><div class="stat-lbl">GitHub Projects</div></div>
+      <div><div class="stat-num">16+</div><div class="stat-lbl">Certifications</div></div>
+      <div><div class="stat-num">🏆</div><div class="stat-lbl">INTELLINA 2K26</div></div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ PROJECTS ═══════════════ -->
+<div class="container">
+  <section id="projects">
+    <div class="eyebrow">// work</div>
+    <h2 class="section-title">Projects</h2>
+
+    <!-- INTELLINA award -->
+    <div class="award-banner">
+      <div class="award-icon">🏆</div>
+      <div>
+        <div class="award-title">2nd Runner Up (3rd Place) — INTELLINA 2K26</div>
+        <div class="award-sub">CIT Coimbatore · PhishPatrol Agent · ₹5,000 Cash Prize · Certificate on LinkedIn</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+
+      <a class="card card-link" href="https://github.com/Suriya-TS/AI-Powered-Study-Buddy" target="_blank">
+        <div class="tag tag-cyan">AI · LLM</div>
+        <div class="proj-title">AI-Powered Study Buddy</div>
+        <p class="proj-desc">Intelligent study assistant leveraging LLMs to generate summaries, quizzes, and personalised learning plans from uploaded content.</p>
+        <div class="pill-row">
+          <span class="pill">Python</span><span class="pill">Streamlit</span><span class="pill">Gemini API</span>
+        </div>
+      </a>
+
+      <a class="card card-link" href="https://github.com/Suriya-TS/AI-Powered-Network-Intrusion-Detection-System" target="_blank">
+        <div class="tag tag-red">ML · Security</div>
+        <div class="proj-title">AI-Powered Network IDS</div>
+        <p class="proj-desc">Machine learning-based IDS that classifies network traffic patterns to detect anomalies and potential intrusions in real time.</p>
+        <div class="pill-row">
+          <span class="pill">Python</span><span class="pill">scikit-learn</span><span class="pill">Pandas</span><span class="pill">Streamlit</span>
+        </div>
+      </a>
+
+      <a class="card card-link" href="https://github.com/Suriya-TS/Blood-bank-management" target="_blank">
+        <div class="tag tag-cyan">Full Stack</div>
+        <div class="proj-title">Blood Bank Management System</div>
+        <p class="proj-desc">Web app for managing blood donor records, inventory, and requests with real-time availability updates. Deployed on Streamlit Cloud with Google Sheets API backend.</p>
+        <div class="pill-row">
+          <span class="pill">Python</span><span class="pill">Streamlit</span><span class="pill">Google Sheets API</span>
+        </div>
+      </a>
+
+      <a class="card card-link" href="https://github.com/Suriya-TS/Roast-My-Resume-AI" target="_blank">
+        <div class="tag tag-purple">AI · React</div>
+        <div class="proj-title">Roast My Resume AI</div>
+        <p class="proj-desc">AI tool that critically reviews and provides actionable feedback on resumes using LLMs to improve clarity and impact. Built at VibeAthon 2026, deployed on Vercel.</p>
+        <div class="pill-row">
+          <span class="pill">React</span><span class="pill">Vite</span><span class="pill">Gemini API</span><span class="pill">Vercel</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ ACHIEVEMENTS ═══════════════ -->
+<div class="container">
+  <section id="achievements">
+    <div class="eyebrow">// recognition</div>
+    <h2 class="section-title">Achievements &amp; Workshops</h2>
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+
+      <div class="card">
+        <div class="ach-item">
+          <div class="ach-icon">🏆</div>
+          <div>
+            <div class="ach-title">INTELLINA 2K26 — 2nd Runner Up</div>
+            <div class="ach-sub">CIT Coimbatore · PhishPatrol Agent (Phishing Detection System) · ₹5,000 Cash Prize</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ach-item">
+          <div class="ach-icon">🎖️</div>
+          <div>
+            <div class="ach-title">Hackovation 2.0 — Participation</div>
+            <div class="ach-sub">VIT · Participation Certificate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ach-item">
+          <div class="ach-icon">🛡️</div>
+          <div>
+            <div class="ach-title">Mastering Penetration Testing — National Workshop</div>
+            <div class="ach-sub">3-Day Hands-On Workshop · SRM IST Tiruchirappalli · Oct 15–17, 2024</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ EXPERIENCE ═══════════════ -->
+<div class="container">
+  <section id="experience">
+    <div class="eyebrow">// internships</div>
+    <h2 class="section-title">Experience</h2>
+    <div style="display:flex; flex-direction:column; gap:1.1rem;">
+
+      <div class="card exp-card">
+        <div class="exp-head">
+          <div>
+            <div class="exp-role">Cybersecurity Intern — Cybersecurity with Gen AI</div>
+            <div class="exp-company">Edunet Foundation · Remote</div>
+          </div>
+          <div class="exp-period">Dec 2025 – Jan 2026</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Explored the intersection of Generative AI and Cybersecurity, studying AI-driven threat detection and response mechanisms.</li>
+          <li>Gained hands-on experience with security concepts enhanced by AI/ML tools and frameworks.</li>
+        </ul>
+      </div>
+
+      <div class="card exp-card">
+        <div class="exp-head">
+          <div>
+            <div class="exp-role">Ethical Hacking Virtual Intern</div>
+            <div class="exp-company">EduSkills Academy · Remote, India</div>
+          </div>
+          <div class="exp-period">Oct 2025 – Dec 2025</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Practised ethical hacking techniques including vulnerability scanning, penetration testing, and exploitation in lab environments.</li>
+          <li>Strengthened knowledge of OWASP Top 10 and common attack vectors in web and network security.</li>
+        </ul>
+      </div>
+
+      <div class="card exp-card">
+        <div class="exp-head">
+          <div>
+            <div class="exp-role">AI &amp; Cloud Technology Intern</div>
+            <div class="exp-company">Edunet Foundation · Remote, India</div>
+          </div>
+          <div class="exp-period">Sep 2025 – Oct 2025</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Worked with AI concepts and cloud deployment models, gaining exposure to AWS services and Generative AI foundations.</li>
+          <li>Developed foundational skills in cloud infrastructure and AI-powered application design.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ EDUCATION ═══════════════ -->
+<div class="container">
+  <section id="education">
+    <div class="eyebrow">// education</div>
+    <h2 class="section-title">Education</h2>
+    <div style="display:flex; flex-direction:column; gap:1.1rem;">
+
+      <div class="card">
+        <div class="edu-card">
+          <div>
+            <div class="edu-degree">B.Tech — Computer Science &amp; Engineering (Cybersecurity)</div>
+            <div class="edu-school">SRM Institute of Science and Technology, Tiruchirappalli</div>
+          </div>
+          <div class="edu-meta">
+            <div class="edu-year">Expected 2028</div>
+            <div class="edu-grade">CGPA 9.64</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="edu-card">
+          <div>
+            <div class="edu-degree">Higher Secondary (12th Grade)</div>
+            <div class="edu-school">St Antony's Higher Secondary School</div>
+          </div>
+          <div class="edu-meta">
+            <div class="edu-year">2024</div>
+            <div class="edu-grade">82%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="edu-card">
+          <div>
+            <div class="edu-degree">Secondary (10th Grade)</div>
+            <div class="edu-school">CSI Matriculation School</div>
+          </div>
+          <div class="edu-meta">
+            <div class="edu-year">2022</div>
+            <div class="edu-grade">74%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ SKILLS ═══════════════ -->
+<div class="container">
+  <section id="skills">
+    <div class="eyebrow">// capabilities</div>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="grid-2">
+
+      <div class="card">
+        <div class="skill-group-title">Cybersecurity &amp; Ethical Hacking</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Cybersecurity</span>
+          <span class="skill-pill">AI in Cybersecurity</span>
+          <span class="skill-pill">Ethical Hacking</span>
+          <span class="skill-pill">Penetration Testing</span>
+          <span class="skill-pill">VAPT</span>
+          <span class="skill-pill">Threat Detection</span>
+          <span class="skill-pill">OWASP Top 10</span>
+          <span class="skill-pill">Nmap</span>
+          <span class="skill-pill">Burp Suite</span>
+          <span class="skill-pill">Metasploit</span>
+          <span class="skill-pill">BeEF</span>
+          <span class="skill-pill">Kali Linux</span>
+          <span class="skill-pill">Linux</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="skill-group-title">AI &amp; Machine Learning</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Generative AI</span>
+          <span class="skill-pill">Machine Learning</span>
+          <span class="skill-pill">Deep Learning</span>
+          <span class="skill-pill">Artificial Neural Networks</span>
+          <span class="skill-pill">LLM Integration</span>
+          <span class="skill-pill">Gemini API</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="skill-group-title">Programming &amp; Web</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">C</span>
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">HTML</span>
+          <span class="skill-pill">CSS</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">Bash / Shell Scripting</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="skill-group-title">Cloud &amp; Tools</div>
+        <div class="skill-pills">
+          <span class="skill-pill">AWS</span>
+          <span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">Git / GitHub</span>
+          <span class="skill-pill">Streamlit</span>
+          <span class="skill-pill">Flask</span>
+          <span class="skill-pill">Vercel</span>
+          <span class="skill-pill">System Administration</span>
+          <span class="skill-pill">IT Infrastructure</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ CERTIFICATIONS ═══════════════ -->
+<div class="container">
+  <section id="certifications">
+    <div class="eyebrow">// credentials</div>
+    <h2 class="section-title">Certifications</h2>
+
+    <div class="cert-section-label">Cybersecurity</div>
+    <div class="grid-3" style="margin-bottom:0.5rem;">
+      <div class="card"><div class="cert-issuer">Fortinet</div><div class="cert-name">Certified Fundamentals in Cybersecurity</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">Foundations of Cybersecurity</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">Play It Safe: Manage Security Risks</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">IT Security: Defense against the Digital Dark Arts</div></div>
+      <div class="card"><div class="cert-issuer">Fortinet</div><div class="cert-name">Getting Started in Cybersecurity 3.0</div></div>
+      <div class="card"><div class="cert-issuer">Fortinet</div><div class="cert-name">Introduction to the Threat Landscape 3.0</div></div>
+      <div class="card"><div class="cert-issuer">EduSkills</div><div class="cert-name">Ethical Hacking</div></div>
+    </div>
+
+    <div class="cert-section-label">Artificial Intelligence &amp; Machine Learning</div>
+    <div class="grid-3" style="margin-bottom:0.5rem;">
+      <div class="card"><div class="cert-issuer">IBM</div><div class="cert-name">Artificial Intelligence Fundamentals</div></div>
+      <div class="card"><div class="cert-issuer">IBM</div><div class="cert-name">Getting Started with Artificial Intelligence</div></div>
+      <div class="card"><div class="cert-issuer">Edunet</div><div class="cert-name">Artificial Intelligence</div></div>
+      <div class="card"><div class="cert-issuer">AWS Academy</div><div class="cert-name">Graduate — Generative AI Foundations</div></div>
+    </div>
+
+    <div class="cert-section-label">Networking &amp; IT Support</div>
+    <div class="grid-3">
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">The Bits and Bytes of Computer Networking</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">Technical Support Fundamentals</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">System Administration &amp; IT Infrastructure Services</div></div>
+      <div class="card"><div class="cert-issuer">Google / Coursera</div><div class="cert-name">Google IT Support</div></div>
+      <div class="card"><div class="cert-issuer">MongoDB</div><div class="cert-name">MongoDB Basics for Students</div></div>
+    </div>
+
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<div class="container">
+  <section id="contact">
+    <div class="eyebrow">// reach out</div>
+    <h2 class="section-title">Contact</h2>
+    <div class="grid-3">
+      <a class="card contact-card" href="mailto:surya.sp.2105@gmail.com">
+        <div class="contact-icon">✉️</div>
+        <div><div class="contact-lbl">Email</div><div class="contact-val">surya.sp.2105@gmail.com</div></div>
+      </a>
+      <a class="card contact-card" href="https://github.com/Suriya-TS" target="_blank">
+        <div class="contact-icon">🐙</div>
+        <div><div class="contact-lbl">GitHub</div><div class="contact-val">github.com/Suriya-TS</div></div>
+      </a>
+      <a class="card contact-card" href="https://linkedin.com/in/suriya-t-s-77ba99328" target="_blank">
+        <div class="contact-icon">💼</div>
+        <div><div class="contact-lbl">LinkedIn</div><div class="contact-val">suriya-t-s-77ba99328</div></div>
+      </a>
+      <div class="card contact-card">
+        <div class="contact-icon">📍</div>
+        <div><div class="contact-lbl">Location</div><div class="contact-val">Trichy – 620010, Tamil Nadu</div></div>
+      </div>
+      <div class="card contact-card">
+        <div class="contact-icon">🎓</div>
+        <div><div class="contact-lbl">Institution</div><div class="contact-val">SRM IST Tiruchirappalli</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Suriya T S · B.Tech CSE (Cybersecurity) · SRM IST Trichy · 2026</p>
+</footer>
+
+</body>
+</html>
